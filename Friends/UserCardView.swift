@@ -48,21 +48,3 @@ struct UserCardView: View {
                 .rect(cornerRadius: 15))
     }
 }
-
-#Preview {
-    UserCardView(
-        user: .init(
-            id: UUID(),
-            isActive: true,
-            name: "rishal",
-            age: 20,
-            company: "Erpgulf",
-            email: "rihsalmuhammmed@gmail.com",
-            address: "Mavielry",
-            about: "Softwaer developer love coding",
-            registered: .now,
-            tags: ["adsdsa", "adsaads"],
-            friends: [.init(id: UUID(), name: "bazim")]
-        )
-    )
-}

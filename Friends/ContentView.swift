@@ -5,10 +5,12 @@
 //  Created by Rishal Bazim on 20/03/25.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @State private var users: [User] = [User]()
+    @Environment(\.modelContext) private var modelContext
+    @Query private var users: [User]
     @State private var isLoading = false
     var body: some View {
         NavigationStack {
@@ -40,8 +42,10 @@ struct ContentView: View {
 
     func getUserList() async {
         if !users.isEmpty {
+            print("not called")
             return
         }
+        print("called")
         guard
             let url = URL(
                 string:
@@ -57,10 +61,13 @@ struct ContentView: View {
             decoder.dateDecodingStrategy = .iso8601
             let decodedUsers = try decoder.decode(
                 [User].self, from: data)
-            await MainActor.run {
-                users = decodedUsers
-                isLoading = false
+            // Add to SwiftData
+            for user in decodedUsers {
+                modelContext.insert(user)
             }
+
+            try modelContext.save()
+            isLoading = false
         } catch {
             await MainActor.run {
                 isLoading = false
@@ -71,5 +78,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView().modelContainer(for: [User.self, Friend.self], inMemory: true)
 }

@@ -11,7 +11,7 @@ struct UserDetailView: View {
     var user: User
     var body: some View {
         ZStack {
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 Text(user.about)
                     .foregroundStyle(.black.opacity(0.8))
                 VStack(alignment: .leading, spacing: 10) {
@@ -70,25 +70,5 @@ struct UserDetailView: View {
                 }
             }.padding([.horizontal, .bottom])
         }.navigationTitle(user.name).navigationBarTitleDisplayMode(.large)
-    }
-}
-
-#Preview {
-    NavigationStack {
-        UserDetailView(
-            user: .init(
-                id: UUID(),
-                isActive: true,
-                name: "rishal",
-                age: 20,
-                company: "Erpgulf",
-                email: "rihsalmuhammmed@gmail.com",
-                address: "Mavielry",
-                about: "Softwaer developer love coding",
-                registered: .now,
-                tags: ["adsdsa", "adsaads"],
-                friends: [.init(id: UUID(), name: "bazim")]
-            ))
-
     }
 }
